@@ -137,19 +137,19 @@ const cc = (card) => {
 // let result = isLeapYear(year);
 // console.log(result);
 
-const isLeapYear = (year) => {
-  if (year % 100 === 0 && year % 400 !== 0) {
-    return `${year} is not a leap year.`;
-  }
+// const isLeapYear = (year) => {
+//   if (year % 100 === 0 && year % 400 !== 0) {
+//     return `${year} is not a leap year.`;
+//   }
 
-  return year % 4 === 0
-    ? `${year} is a leap year.`
-    : `${year} is not a leap year.`;
-};
+//   return year % 4 === 0
+//     ? `${year} is a leap year.`
+//     : `${year} is not a leap year.`;
+// };
 
-let year = 1900;
+// let year = 1900;
 
-let result = isLeapYear(year);
+// let result = isLeapYear(year);
 // console.log(result);
 
 //Lunch picker program
@@ -310,9 +310,195 @@ const getResults = (obj, compChoice) =>
     ? `The computer's choice is correct!`
     : `The computer's choice is wrong. The correct answer is: ${obj.answer}`;
 
-console.log(
-  getResults(
-    selectedQuestion,
-    getRandomComputerChoice(selectedQuestion.choices)
-  )
-);
+// console.log(
+//   getResults(
+//     selectedQuestion,
+//     getRandomComputerChoice(selectedQuestion.choices)
+//   )
+// );
+
+//* RECORD COLLECTION
+
+const recordCollection = {
+  2548: {
+    albumTitle: "Slippery When Wet",
+    artist: "Bon Jovi",
+    tracks: ["Let It Rock", "You Give Love a Bad Name"],
+  },
+  2468: {
+    albumTitle: "1999",
+    artist: "Prince",
+    tracks: ["1999", "Little Red Corvette"],
+  },
+  1245: {
+    artist: "Robert Palmer",
+    tracks: [],
+  },
+  5439: {
+    albumTitle: "ABBA Gold",
+  },
+};
+
+const updateRecords = (records, id, prop, value) => {
+  if (value === "") {
+    delete records[id][prop];
+  } else if (prop !== "tracks" && value !== "") {
+    records[id][prop] = value;
+    console.log(records[id][prop]);
+  } else if (
+    prop === "tracks" &&
+    value !== "" &&
+    !records[id].hasOwnProperty("tracks")
+  ) {
+    records[id]["tracks"] = [value];
+    console.log(records[id]["tracks"]);
+  } else if (prop === "tracks" && value !== "") {
+    records[id]["tracks"].push(value);
+    console.log(records[id]["tracks"]);
+  }
+  return records;
+};
+
+// updateRecords(recordCollection, 5439, "tracks", "Take a Chance on Me");
+// console.log(recordCollection);
+
+// After updateRecords(recordCollection, 5439, "tracks", "Take a Chance on Me"), tracks should have the string Take a Chance on Me as the last and only element.
+
+const vowels = ["a", "e", "i", "o", "u"];
+
+const getVowelCount = (sentence) => {
+  let count = 0;
+  for (let letter of sentence) {
+    for (let vowel of vowels) {
+      if (letter.toLowerCase() === vowel) {
+        count++;
+        console.log(letter);
+        console.log(count);
+      }
+    }
+  }
+  return count;
+};
+
+// console.log(getVowelCount("Apples are tasty fruits"));
+
+const getWordCount = (sentence) => {
+  if (!sentence && sentence.trim() === "") {
+    return 0;
+  }
+
+  let count = 0;
+  let words = sentence.split(" ");
+  for (let word of words) {
+    if (word.trim() !== "") {
+      count++;
+      console.log(word);
+    }
+  }
+  return count;
+};
+
+// console.log(getWordCount("    "));
+
+//* Find longest word
+
+const findLongestWordLength = (string) => {
+  let words = string.trim().split(" ");
+  let longest = words.reduce((prev, i) => {
+    if (i.trim().length > prev.trim().length) {
+      prev = i;
+    }
+    return prev;
+  });
+  return longest.length;
+};
+
+// console.log(
+//   findLongestWordLength("The quick brown fox jumped over the lazy dog")
+// );
+
+//* Mutation algorithm
+
+const mutation = (array) => {
+  let result = true;
+  for (let letter of array[1]) {
+    if (!array[0].toLowerCase().includes(letter.toLowerCase())) {
+      result = false;
+    }
+  }
+  return result;
+};
+
+// console.log(mutation(["hello", "neo"]));
+
+//* Chunk array
+
+const chunkArrayInGroups = (array, num) => {
+  let arrayNumber = Math.floor(array.length / num);
+  let finalArr = [];
+  let position = 0;
+  for (let i = position; i < arrayNumber; i++) {
+    let chunkArr = [];
+    for (let j = 0; j < num; j++) {
+      chunkArr.push(array[j]);
+    }
+    array.splice(0, num);
+    finalArr.push(chunkArr);
+    position += num;
+  }
+  if (array.length !== 0) {
+    finalArr.push(array);
+  }
+  return finalArr;
+};
+
+// console.log(chunkArrayInGroups(["a", "b", "c", "d"], 2));
+// console.log(chunkArrayInGroups([0, 1, 2, 3, 4, 5], 3));
+// console.log(chunkArrayInGroups([0, 1, 2, 3, 4, 5], 2));
+
+//*  Profile Lookup
+
+let contacts = [
+  {
+    firstName: "Akira",
+    lastName: "Laine",
+    number: "0543236543",
+    likes: ["Pizza", "Coding", "Brownie Points"],
+  },
+  {
+    firstName: "Harry",
+    lastName: "Potter",
+    number: "0994372684",
+    likes: ["Hogwarts", "Magic", "Hagrid"],
+  },
+  {
+    firstName: "Sherlock",
+    lastName: "Holmes",
+    number: "0487345643",
+    likes: ["Intriguing Cases", "Violin"],
+  },
+  {
+    firstName: "Kristian",
+    lastName: "Vos",
+    number: "unknown",
+    likes: ["JavaScript", "Gaming", "Foxes"],
+  },
+];
+
+const lookUpProfile = (name, property) => {
+  let result = "No such contact";
+  for (let contact of contacts) {
+    if (contact.firstName === name) {
+      console.log(contact["firstName"]);
+      if (Object.hasOwn(contact, property)) {
+        console.log(property, contact[property]);
+        result = contact[property];
+      } else {
+        result = "No such property";
+      }
+    }
+  }
+  return result;
+};
+// console.log(lookUpProfile("Kristian", "lastName"));
+console.log(lookUpProfile("Sherlock", "likes"));
