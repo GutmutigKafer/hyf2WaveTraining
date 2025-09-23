@@ -501,4 +501,136 @@ const lookUpProfile = (name, property) => {
   return result;
 };
 // console.log(lookUpProfile("Kristian", "lastName"));
-console.log(lookUpProfile("Sherlock", "likes"));
+// console.log(lookUpProfile("Sherlock", "likes"));
+
+//* String Repeating Function
+
+const repeatStringNumTimes = (string, num) => {
+  let finalString = "";
+  for (let i = 0; i < num; i++) {
+    if (num <= 0) {
+      return "";
+    }
+    finalString = finalString.concat(string);
+  }
+  return finalString;
+};
+
+// console.log(repeatStringNumTimes("*", 3));
+
+//* Largest Number Finder
+
+const largestOfAll = (array) => {
+  let newArr = new Array();
+  for (let one of array) {
+    newArr.push(one.reduce((sum, i) => (i > sum ? i : sum)));
+  }
+  return newArr;
+};
+
+// console.log(
+//   largestOfAll([
+//     [4, 5, 1, 3],
+//     [13, 27, 18, 26],
+//     [32, 35, 37, 39],
+//     [1000, 1001, 857, 1],
+//   ])
+// );
+
+//* First Element Finder
+
+const findElement = (array, func) => {
+  for (let num of array) {
+    if (func(num)) {
+      return num;
+    }
+  }
+  return undefined;
+};
+
+// console.log(
+//   findElement([1, 3, 5, 8, 9, 10], function (num) {
+//     return num % 2 === 0;
+//   })
+// );
+
+//* Slice and Splice
+
+const frankenSplice = (arr1, arr2, index) => {
+  let finalArr = [];
+  finalArr.push(...arr2.slice(0, index));
+  finalArr.push(...arr1.slice(arr1));
+  finalArr.push(...arr2.slice(arr2.length - index));
+  return finalArr;
+};
+
+// console.log(frankenSplice([1, 2, 3], [4, 5], 1));
+
+//* Pyramid
+
+const pyramid = (char, num, bool) => {
+  let pyramidArr = ["\n"];
+
+  if (bool) {
+    for (let i = num; i > 0; i--) {
+      let spacesInRow = num - i;
+      let charsInRow = i * 2 - 1;
+      let row = " ".repeat(spacesInRow).concat(char.repeat(charsInRow), "\n");
+      pyramidArr.push(row);
+    }
+  } else {
+    for (let i = 1; i <= num; i++) {
+      let spacesInRow = num - i;
+      let charsInRow = i * 2 - 1;
+      let row = " ".repeat(spacesInRow).concat(char.repeat(charsInRow), "\n");
+      pyramidArr.push(row);
+    }
+  }
+  return pyramidArr.toString("").split(",").join("");
+};
+
+// console.log(pyramid("p", 5, true));
+// console.log(pyramid("o", 4, false));
+
+//* Gradebook App
+const getAverage = (array) => {
+  return array.reduce((sum, one) => sum + one) / array.length;
+};
+
+const getGrade = (score) => {
+  switch (true) {
+    case score < 60:
+      return "F";
+    case score < 70:
+      return "D";
+    case score < 80:
+      return "C";
+    case score < 90:
+      return "B";
+    case score < 100:
+      return "A";
+    default:
+      return "A+";
+  }
+};
+let gradeStr;
+const hasPassingGrade = (grade) => {
+  gradeStr = getGrade(grade);
+  console.log(gradeStr);
+  return gradeStr !== "F";
+};
+
+const studentMsg = (array, studentScore) => {
+  let hasPassed = hasPassingGrade(studentScore);
+  let average = getAverage(array);
+  if (hasPassed) {
+    return `Class average: ${average}. Your grade: ${gradeStr}. You passed the course.`;
+  } else {
+    return `Class average: ${average}. Your grade: ${gradeStr}. You failed the course.`;
+  }
+};
+
+// console.log(hasPassingGrade("C"));
+// console.log(getGrade(50));
+
+console.log(studentMsg([92, 88, 12, 77, 57, 100, 67, 38, 97, 89], 37));
