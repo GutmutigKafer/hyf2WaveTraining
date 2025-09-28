@@ -633,4 +633,101 @@ const studentMsg = (array, studentScore) => {
 // console.log(hasPassingGrade("C"));
 // console.log(getGrade(50));
 
-console.log(studentMsg([92, 88, 12, 77, 57, 100, 67, 38, 97, 89], 37));
+// console.log(studentMsg([92, 88, 12, 77, 57, 100, 67, 38, 97, 89], 37));
+
+//*  Falsy Remover
+
+const bouncer = (array) => {
+  let finalArr = [];
+  for (let one of array.slice()) {
+    if (one) {
+      finalArr.push(one);
+    }
+  }
+  return finalArr;
+};
+
+// console.log(bouncer([7, "ate", "", false, 9]));
+
+//* Inventory Managment Program
+
+// let product1 = {
+//   name: "synthesizer",
+//   quantity: 2
+// }
+
+const inventory = [];
+
+const findProductIndex = (name) => {
+  return inventory.findIndex((item) => item.name === name.toLowerCase());
+};
+
+const addProduct = (prodObject) => {
+  const { name: newName } = prodObject;
+  prodObject.name = newName.toLowerCase();
+  const index = findProductIndex(newName);
+  if (index !== -1) {
+    const product = inventory[index];
+    product.quantity += prodObject.quantity;
+    console.log(`${prodObject.name} quantity updated`);
+    return inventory[index].quantity;
+  } else {
+    console.log(`${prodObject.name} added to inventory`);
+    return inventory.push(prodObject);
+  }
+};
+
+const removeProduct = (name, quantity) => {
+  let nameLow = name.toLowerCase();
+  let index = findProductIndex(nameLow);
+  if (index === -1) return console.log(`${nameLow} not found`);
+
+  let newQuantity = inventory[index].quantity - quantity;
+  switch (true) {
+    case newQuantity === 0:
+      inventory[index] = inventory[inventory.length - 1];
+      inventory.pop();
+      return inventory;
+    case newQuantity < 0:
+      console.log(
+        `Not enough ${nameLow} available, remaining pieces: ${inventory[index].quantity}`
+      );
+      return inventory[index].quantity;
+    default:
+      inventory[index].quantity = newQuantity;
+      console.log(`Remaining ${nameLow} pieces: ${inventory[index].quantity}`);
+      return inventory[index].quantity;
+  }
+};
+
+// console.log(removeProduct("FLOUR", 5));
+
+//* Password Generator
+
+const generatePassword = (length) => {
+  let generatedPass = "";
+  const chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+  while (generatedPass.length < length) {
+    generatedPass = generatedPass.concat(
+      chars[Math.round(Math.random(0, 1) * chars.length)]
+    );
+  }
+  return generatedPass;
+};
+let password = generatePassword(8);
+
+// console.log(`Generated password: ${password}`);
+
+//* Sum All Algorithm
+
+const sumAll = (array) => {
+  let arr = array.sort((a, b) => a - b);
+  let sum = 0;
+  for (let i = arr[0]; i <= arr[1]; i++) {
+    sum += i;
+  }
+  return sum;
+};
+
+console.log(sumAll([5, 10]));
