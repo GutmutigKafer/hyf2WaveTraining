@@ -730,4 +730,96 @@ const sumAll = (array) => {
   return sum;
 };
 
-console.log(sumAll([5, 10]));
+// console.log(sumAll([5, 10]));
+
+//* GNA Pair Generator
+
+// const pairElement = (string) => {
+//   const pairs = [
+//     ["A", "T"],
+//     ["C", "G"],
+//   ];
+//   let finalArr = [];
+//   for (let letter of string) {
+//     if (pairs[0].includes(letter)) {
+//       let second = pairs[0][pairs.length - (pairs[0].indexOf(letter) + 1)];
+//       console.log(`second: ${second}`);
+//       let pairArr = new Array(letter, second);
+//       finalArr.push(pairArr);
+//     } else if (pairs[1].includes(letter)) {
+//       let second = pairs[1][pairs.length - (pairs[1].indexOf(letter) + 1)];
+//       let pairArr = new Array(letter, second);
+//       finalArr.push(pairArr);
+//     }
+//   }
+//   return finalArr;
+// };
+
+const pairElement = (string) => {
+  const pairs = [
+    ["A", "T"],
+    ["C", "G"],
+  ];
+  let finalArr = [];
+  for (let letter of string) {
+    for (let pair of pairs) {
+      if (pair.includes(letter)) {
+        let second = pair[pair.length - (pair.indexOf(letter) + 1)];
+        finalArr.push(new Array(letter, second));
+      }
+    }
+  }
+  return finalArr;
+};
+
+// console.log(pairElement("ATCGA"));
+
+//* HTML Converter
+
+const symbMap = {
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+  "'": "&apos;",
+};
+const convertHTML = (string) => {
+  let finalStr = string;
+  for (let letter of string) {
+    for (let symbol of Object.keys(symbMap)) {
+      if (letter === symbol) {
+        finalStr = finalStr.replace(letter, symbMap[symbol]);
+      }
+    }
+  }
+  return finalStr;
+};
+// console.log(symbMap);
+// console.log(convertHTML("Schindler's List"));
+
+//* Optional Arguments Sum
+
+const addTogether = (...numbers) => {
+  const [num1, num2] = numbers;
+  if (numbers.length === 1 && typeof num1 === "number") {
+    return function sum(num2) {
+      if (typeof num2 !== "number") {
+        return undefined;
+      }
+      return num1 + num2;
+    };
+  } else if (
+    numbers.length === 2 &&
+    typeof num1 === "number" &&
+    typeof num2 === "number"
+  ) {
+    return num1 + num2;
+  } else {
+    return undefined;
+  }
+};
+// console.log(addTogether(5)(7));
+// console.log(addTogether("2", 3));
+// console.log(addTogether(23.4, 30));
+// console.log(addTogether(2)([3]));
+// console.log(addTogether(5));
