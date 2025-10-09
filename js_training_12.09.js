@@ -823,3 +823,162 @@ const addTogether = (...numbers) => {
 // console.log(addTogether(23.4, 30));
 // console.log(addTogether(2)([3]));
 // console.log(addTogether(5));
+
+//* Book Organizer
+
+const books = [
+  {
+    title: "To Kill a Mockingbird",
+    authorName: "Harper Lee",
+    releaseYear: 1960,
+  },
+  {
+    title: "1984",
+    authorName: "George Orwell",
+    releaseYear: 1949,
+  },
+  {
+    title: "The Catching Fire",
+    authorName: "Suzanne Collins",
+    releaseYear: 2008,
+  },
+];
+const sortByYear = (book1, book2) => {
+  let result = book1.releaseYear - book2.releaseYear;
+  if (result === 0) return 0;
+  return result < 0 ? -1 : 1;
+};
+const filteredBooks = books.filter((book) => book.releaseYear > 1950);
+
+filteredBooks.sort(sortByYear);
+
+// console.log(sortByYear(books[0], books[1]));
+
+// console.log(filteredBooks);
+
+//* Sorted Index Finder
+
+const getIndexToIns = (array, num) => {
+  return array
+    .sort((a, b) => a - b)
+    .findIndex(
+      (value, indx, arr) =>
+        (num < value && num > arr[indx - 1]) || num === value
+    );
+};
+
+// console.log(getIndexToIns([1, 2, 3, 4], 1.5));
+// console.log(getIndexToIns([20, 3, 5], 19));
+// console.log(getIndexToIns([10, 20, 30, 40, 50], 30));
+
+//* Symmetric Difference Function
+
+const diffArray = (arr1, arr2) => {
+  const combArr = arr1.concat(arr2);
+  return combArr.filter(
+    (value) => !(arr1.includes(value) && arr2.includes(value))
+  );
+};
+
+// console.log(
+//   diffArray(
+//     ["diorite", "andesite", "grass", "dirt", "pink wool", "dead shrub"],
+//     ["diorite", "andesite", "grass", "dirt", "dead shrub"]
+//   )
+// );
+
+//* Value Remover Function
+
+const destroyer = (array, ...args) => {
+  let finalArr = [];
+  array.forEach((value) => {
+    if (!args.includes(value)) {
+      finalArr.push(value);
+    }
+  });
+  return finalArr;
+};
+
+// console.log(destroyer([1, 2, 3, 1, 2, 3], 2, 3));
+
+//* Matching Object Filter
+
+const whatIsInAName = (array, source) => {
+  const finalArr = [];
+  const sourceKeys = Object.keys(source);
+  const sourceValues = Object.values(source);
+  array.forEach((obj, indexArr) => {
+    const objKeys = Object.keys(obj);
+    const objValues = Object.values(obj);
+    let valueMatches = sourceValues.length;
+    objKeys.forEach((key, indexObj) => {
+      const indexSource = sourceKeys.indexOf(key);
+      if (objValues[indexObj] === sourceValues[indexSource]) {
+        valueMatches -= 1;
+      }
+    });
+    if (valueMatches === 0) {
+      finalArr.push(array[indexArr]);
+    }
+  });
+  return finalArr;
+};
+
+// console.log(
+//   whatIsInAName(
+//     [{ apple: 1, bat: 2 }, { apple: 1 }, { apple: 1, bat: 2, cookie: 2 }],
+//     { apple: 1, cookie: 2 }
+//   )
+// );
+
+// console.log(
+//   whatIsInAName(
+//     [{ apple: 1, bat: 2 }, { bat: 2 }, { apple: 1, bat: 2, cookie: 2 }],
+//     { apple: 1, bat: 2 }
+//   )
+// );
+
+//* Sum All Primes Calculator
+
+const sumPrimes = (num) => {
+  if (num < 2) return 0;
+  let finalSum = 2;
+  for (let one = 3; one <= num; one += 2) {
+    let isPrime = true;
+    for (let i = 2; i < one; i++) {
+      if (one % i === 0) isPrime = false;
+    }
+    if (isPrime) {
+      finalSum += one;
+    }
+  }
+  return finalSum;
+};
+
+// console.log(sumPrimes(10));
+
+//* Range-Based LCM Calculator
+
+const smallestCommons = (array) => {
+  let arr = array.sort((a, b) => a - b);
+  let mult;
+  for (let one = arr[0]; one <= arr[1]; one++) {
+    if (one === arr[0]) mult = one;
+    mult = (mult * one) / greatestComFactor(mult, one);
+  }
+  return mult;
+};
+const greatestComFactor = (big, small) => {
+  let factor = 1;
+  for (let i = 2; i <= small; i++) {
+    if (big % i === 0 && small % i === 0) {
+      factor = i;
+    }
+  }
+  return factor;
+};
+
+console.log(smallestCommons([1, 5]));
+console.log(smallestCommons([5, 1]));
+console.log(smallestCommons([2, 10]));
+console.log(smallestCommons([13, 2]));
