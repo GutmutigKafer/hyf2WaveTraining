@@ -978,7 +978,114 @@ const greatestComFactor = (big, small) => {
   return factor;
 };
 
-console.log(smallestCommons([1, 5]));
-console.log(smallestCommons([5, 1]));
-console.log(smallestCommons([2, 10]));
-console.log(smallestCommons([13, 2]));
+// console.log(smallestCommons([1, 5]));
+// console.log(smallestCommons([5, 1]));
+// console.log(smallestCommons([2, 10]));
+// console.log(smallestCommons([13, 2]));
+
+//* Deep Flattening Tool
+
+// const steamrollArray = (nestedArr) => {
+//   const finalArray = [];
+
+//   const flattenArray = (array) => {
+//     for (let one of array) {
+//       if (Array.isArray(one)) {
+//         flattenArray(one);
+//       } else {
+//         finalArray.push(one);
+//       }
+//     }
+//   };
+//   flattenArray(nestedArr);
+//   return finalArray;
+// };
+
+const steamrollArray = (nestedArray) => {
+  const finalArr = [];
+  const flattenArray = (array) => {
+    for (let item of array) {
+      Array.isArray(item) ? flattenArray(item) : finalArr.push(item);
+    }
+  };
+  flattenArray(nestedArray);
+  return finalArr;
+};
+
+// console.log(steamrollArray([[["a"]], [["b"]]]));
+// console.log(steamrollArray([1, {}, [3, [[4]]]]));
+
+//* All-True Property Validator
+
+// function truthCheck(collection, property) {
+//   let result = true;
+//   collection.forEach((obj) => {
+//     if (!obj[property]) {
+//       result = false;
+//     }
+//   });
+//   return result;
+// }
+
+function truthCheck(collection, property) {
+  return collection.every((obj) => obj[property]);
+}
+
+// console.log(
+//   truthCheck(
+//     [
+//       { name: "Quincy", role: "Founder", isBot: false },
+//       { name: "Naomi", role: "", isBot: false },
+//       { name: "Camperbot", role: "Bot", isBot: true },
+//     ],
+//     "isBot"
+//   )
+// );
+
+//* KATA Pairs of integers from 0 to n
+//for input: 2
+// it should return: [  [0, 0], [0, 1], [0, 2],  [1, 1], [1, 2],  [2, 2]  ]
+
+function generatePairs(n) {
+  let finalArr = [];
+  for (let a = 0; a <= n; a++) {
+    for (let b = a; b <= n; b++) {
+      let pair = new Array(a, b);
+      finalArr.push(pair);
+    }
+  }
+  return finalArr;
+}
+// console.log(generatePairs(2));
+
+//* KATA Replace With Alphabet Position
+// If anything in the text isn't a letter, ignore it and don't return it.
+// "a" = 1, "b" = 2, etc.
+// Example
+// Input = "The sunset sets at twelve o' clock."
+// Output = "20 8 5 19 21 14 19 5 20 19 5 20 19 1 20 20 23 5 12 22 5 15 3 12 15 3 11"
+
+function alphabetPosition(text) {
+  return [...text.toLowerCase()]
+    .map((letter) => letter.charCodeAt(0) - 96)
+    .filter((num) => num > 0 && num < 27)
+    .join(" ");
+}
+// console.log(alphabetPosition("The narwhal bacons at midnight."));
+
+//* Exes and Ohs
+//Check to see if a string has the same amount of 'x's and 'o's.
+// The method must return a boolean and be case insensitive.
+// The string can contain any char.
+function XO(str) {
+  let count = 0;
+  for (let letter of str) {
+    if (letter.toLowerCase() === "x") count++;
+    if (letter.toLowerCase() === "o") count--;
+  }
+  return !count;
+}
+
+// console.log(XO("ooxXm"));
+console.log(XO("zpzpzpp"));
+console.log(XO("zzoo"));
