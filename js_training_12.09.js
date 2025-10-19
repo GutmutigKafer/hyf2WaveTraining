@@ -1087,5 +1087,81 @@ function XO(str) {
 }
 
 // console.log(XO("ooxXm"));
-console.log(XO("zpzpzpp"));
-console.log(XO("zzoo"));
+// console.log(XO("zpzpzpp"));
+// console.log(XO("zzoo"));
+
+//* Create Phone Numbers
+// createPhoneNumber([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]) // => returns "(123) 456-7890"
+
+const createPhoneNumber = (numbers) => {
+  return numbers
+    .map((num, index) => {
+      switch (index) {
+        case 0:
+          return "(" + num;
+        case 2:
+          return num + ") ";
+        case 5:
+          return num + "-";
+        default:
+          return num;
+      }
+    })
+    .join("");
+};
+
+// console.log(createPhoneNumber([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]));
+
+//* KATA Ones and Zeros
+// [0, 0, 0, 1] is treated as 0001 which is the binary representation of 1.
+const binaryArrayToNumber = (arr) => parseInt(arr.join(""), 2);
+
+// console.log(binaryArrayToNumber([0, 1, 0, 1, 0, 1]));
+
+//* Shortest Word
+const findShort = (s) =>
+  s.split(" ").reduce((acc, one) => (one.length > acc.length ? acc : one))
+    .length;
+
+// *Rank Vector
+//array = [9,3,6,10] --> ranks = [2,4,3,1]
+// array = [3,3,3,3,3,5,1] --> ranks = [2,2,2,2,2,1,7]
+
+const ranks = (a) => a.map((num) => a.filter((val) => val > num).length + 1);
+
+// console.log(ranks([5, 2, 3, 5, 5, 4, 9, 8, 0]));
+
+//* Growth of a Population
+
+const nbYear = (p0, percent, aug, p) => {
+  const calculateP = () => {
+    p0 = Math.floor(p0 + (p0 * percent) / 100 + aug);
+    if (p0 < p) {
+      calculateP();
+    }
+    n++;
+    return p0;
+  };
+  let n = 0;
+  calculateP();
+  return n;
+};
+
+// console.log(nbYear(1500, 5, 100, 5000));
+// console.log(nbYear(1500000, 2.5, 10000, 2000000));
+
+//* Highest Scoring Word
+// For example, the score of abad is 8 (1 + 2 + 1 + 4).
+// You need to return the highest scoring word as a string.
+// If two words score the same, return the word that appears earliest in the original string.
+
+const high = (x) => {
+  let array = x
+    .split(" ")
+    .map((word) =>
+      [...word].reduce((acc, letter) => acc + (letter.charCodeAt() - 96), 0)
+    );
+  return x.split(" ")[array.indexOf(Math.max.apply(null, array))];
+};
+
+console.log(high("man i need a taxi up to ubud"));
