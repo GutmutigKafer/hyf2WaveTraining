@@ -1164,4 +1164,256 @@ const high = (x) => {
   return x.split(" ")[array.indexOf(Math.max.apply(null, array))];
 };
 
-console.log(high("man i need a taxi up to ubud"));
+// console.log(high("man i need a taxi up to ubud"));
+
+// //* KATA  Are they the "same"?
+// comp(a, b) returns true because in b 121 is the square of 11, 14641 is the square of 121, 20736 the square of 144, 361 the square of 19, 25921 the square of 161, and so on. It gets obvious if we write b's elements in terms of squares:
+// a = [121, 144, 19, 161, 19, 144, 19, 11]
+// b = [11*11, 121*121, 144*144, 19*19, 161*161, 19*19, 144*144, 19*19]
+
+let a1 = [121, 144, 19, 161, 19, 144, 19, 11];
+let a2 = [
+  11 * 11,
+  121 * 121,
+  144 * 144,
+  19 * 19,
+  161 * 161,
+  19 * 19,
+  144 * 144,
+  19 * 19,
+];
+
+const comp = (array1, array2) => {
+  if (array1 === null || array2 === null) return false;
+  const makeMap = (array) =>
+    array
+      .sort((a, b) => a - b)
+      .reduce((obj, one) => {
+        obj[one] = ++obj[one] || 1;
+        return obj;
+      }, {});
+  let obj1 = {};
+  let obj2 = makeMap(array2);
+  for (let [key, value] of Object.entries(makeMap(array1))) {
+    let sqrdValue = Number.parseInt(key, 10) ** 2;
+    obj1[sqrdValue] = (obj1[sqrdValue] || 0) + value;
+  }
+  return JSON.stringify(obj1) === JSON.stringify(obj2);
+};
+
+// console.log(comp(a1, a2));
+
+const getGradeKATA = (s1, s2, s3) => {
+  let score = (s1 + s2 + s3) / 3;
+  console.log(score);
+  switch (true) {
+    case score >= 90:
+      return "A";
+    case score >= 80:
+      return "B";
+    case score >= 70:
+      return "C";
+    case score >= 60:
+      return "D";
+    default:
+      return "F";
+  }
+};
+
+// console.log(getGradeKATA(90, 70, 83));
+
+//* Missing Letter Detector
+
+const fearNotLetter = (string) => {
+  return [...string]
+    .map((val) => val.codePointAt())
+    .reduce((acc, letter, indx, arr) => {
+      if (arr[indx + 1]) {
+        if (arr[indx + 1] - letter > 1) {
+          acc = String.fromCodePoint(letter + 1);
+        }
+      }
+      return acc;
+    }, undefined);
+};
+
+// console.log(fearNotLetter("abce"));
+
+const titleCase = (string) => {
+  return string
+    .split(" ")
+    .map((word) =>
+      [...word]
+        .map((letter, indx) =>
+          indx === 0 ? letter.toUpperCase() : letter.toLowerCase()
+        )
+        .join("")
+    )
+    .join(" ");
+};
+
+// console.log(titleCase("javaScript is fun"));
+
+const uniteUnique = (...arrays) => {
+  return Array.from(new Set(arrays.flat()));
+};
+
+// console.log(uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1]));
+
+//* Odd Fibonacci Sum Calculator
+const sumFibs = (num) => {
+  let prevFib = 0,
+    currFib = 1,
+    fibSum = 0;
+  while (currFib <= num) {
+    if (currFib % 2 !== 0) fibSum += currFib;
+    [prevFib, currFib] = [currFib, currFib + prevFib];
+  }
+  return fibSum;
+};
+
+// console.log(sumFibs(4000000));
+//4613732
+
+//* Element Skipper
+const dropElements = (arr, func) => {
+  let indx = arr.findIndex((val) => func(val));
+  return indx === -1 ? [] : arr.slice(indx);
+};
+
+// console.log(
+//   dropElements([1, 2, 3, 4], function (n) {
+//     return n > 5;
+//   })
+// );
+
+//* KATA Array difference
+//If a = [1, 2] and b = [1], the result should be [2].
+// If a = [1, 2, 2, 2, 3] and b = [2], the result should be [1, 3].
+
+const arrayDiff = (a, b) => {
+  for (let num of b) {
+    while (a.includes(num)) {
+      a.splice(a.indexOf(num), 1);
+    }
+  }
+  return a;
+};
+
+// const arrayDiff = (a, b) => {
+//   b.map((bNum) => {
+//     while (a.includes(bNum)) {
+//       a.map((aNum) => {
+//         if (aNum === bNum) {
+//           let indx = a.indexOf(aNum);
+//           console.log(indx);
+//           a.splice(indx, 1);
+//         }
+//       });
+//     }
+//   });
+//   return a;
+// };
+
+// console.log(arrayDiff([1, 2, 2], [2]));
+
+//* Calculating with Functions
+// seven(times(five()));   //  must return 35
+// four(plus(nine()));     //  must return 13
+// eight(minus(three()));  //  must return 5
+// six(dividedBy(two()));  //  must return 3
+
+const zero = (operation) => (operation ? operation(0) : 0);
+const one = (operation) => (operation ? operation(1) : 1);
+const two = (operation) => (operation ? operation(2) : 2);
+const three = (operation) => (operation ? operation(3) : 3);
+const four = (operation) => (operation ? operation(4) : 4);
+const five = (operation) => (operation ? operation(5) : 5);
+const six = (operation) => (operation ? operation(6) : 6);
+const seven = (operation) => (operation ? operation(7) : 7);
+const eight = (operation) => (operation ? operation(8) : 8);
+const nine = (operation) => (operation ? operation(9) : 9);
+
+const plus = (arg2) =>
+  function (arg1) {
+    return arg1 + arg2;
+  };
+
+const minus = (arg2) =>
+  function (arg1) {
+    return arg1 - arg2;
+  };
+const times = (arg2) =>
+  function (arg1) {
+    return arg1 * arg2;
+  };
+const dividedBy = (arg2) =>
+  function (arg1) {
+    return Math.floor(arg1 / arg2);
+  };
+
+// console.log(seven(times(five())));
+
+//* Counting Duplicates
+//"aabbcde" -> 2 # 'a' and 'b'
+// "aabBcde" -> 2 # 'a' occurs twice and 'b' twice (`b` and `B`)
+const duplicateCount = (text) => {
+  let doubles = [];
+  [...text].forEach((one) =>
+    [...text].filter((val) => val.toLowerCase() === one).length > 1 &&
+    !doubles.includes(one)
+      ? doubles.push(one)
+      : doubles
+  );
+  return doubles.length;
+};
+
+// console.log(duplicateCount("aabBcde"));
+
+//* Rock Paper Scissors!
+const rps = (p1, p2) => {
+  const two = p1[0].concat(p2[0]);
+  const map = ["rs", "pr", "sp"];
+  switch (true) {
+    case map.includes(two):
+      return "Player 1 won!";
+    case map.map((one) => one.split("").reverse("").join("")).includes(two):
+      return "Player 2 won!";
+    default:
+      return "Draw!";
+  }
+};
+
+// console.log(rps("rock", "paper"));
+
+//* KATA Build Tower
+//[
+//   "  *  ",
+//   " *** ",
+//   "*****"
+// ]
+
+const towerBuilder = (nFloors) => {
+  return Array.from({ length: nFloors }).map((_, indx) => {
+    let spaces = " ".repeat(nFloors - (indx + 1));
+    return spaces + "*".repeat(indx * 2 + 1) + spaces;
+  });
+};
+
+// console.log(towerBuilder(3));
+
+//* Tribonacci Sequence
+// [0, 0, 1, 1, 2, 4, 7, 13, 24, ...]
+const tribonacci = (signature, n) => {
+  if (n === 0) return [];
+  if (n <= 3) return signature.slice(0, n);
+  let [first, second, third] = signature;
+  for (let i = 0; i <= n - 4; i++) {
+    let nextNum = first + second + third;
+    signature.push(nextNum);
+    [first, second, third] = [second, third, nextNum];
+  }
+  return signature;
+};
+
+console.log(tribonacci([1, 2, 3], 10));
